@@ -1,9 +1,10 @@
 class Character{
-    constructor(name, durability, atk, mana){
+    constructor(name, durability, atk, mana, level){
         this.name = name;
         this.durability = durability;
         this.atk = atk;
         this.mana = mana;
+        this.level = level;
     }
     attack() {
         console.log(`${this.name} attacks with ${this.atk} damage!`)
@@ -13,6 +14,15 @@ class Character{
         console.log(`${this.name} strengthens to ${this.durability} health!`)
         this.mana += -3;
         console.log(`${this.name} has ${this.mana} mana left!`)
+    }
+    defend(){
+        this.durability -= Math.floor(Math.random() * 6);
+        console.log(`${this.name} takes a hit and has ${this.durability} health!`)
+    }
+    levelUp(){
+        this.level += 1;
+        this.atk +=1;
+        console.log(`${this.name} levels up to level ${this.level} and now deals ${this.atk} damage!`)
     }
 }
 
@@ -38,14 +48,34 @@ class Superior extends Character{
     }
 }
 
-let knight = new Character('Knight', 10, 4, 0);
-let wizard = new Character('Wizard', 6, 8, 12);
-let priest = new Character('Priest', 5, 2, 16);
-let commander = new Superior('Commander', 10, 5, 30, 0);
+class minion extends Character{
+    constructor(name, durability, atk, mana, type){
+        super(name, durability, atk, mana, type);
+        this.type = type;
+    }
+    wack(){
+        console.log(`${this.name} unleashes a weak attack dealing ${this.atk} damage.`)
+    }
+}
+
+
+let knight = new Character('Knight', 10, 6, 0, 4);
+let wizard = new Character('Wizard', 6, 8, 12, 3);
+let priest = new Character('Priest', 5, 2, 16, 5);
+let commander = new Superior('Commander', 10, 5, 30, 0, 8);
+
+let soldier = new minion('Soldier', 4, 2, 0, 'Swordsman')
 
 knight.attack();
 wizard.overheal();
 priest.attack();
+
+knight.defend();
+
+soldier.wack();
+
+wizard.levelUp();
+wizard.levelUp();
 
 commander.chargeUp();
 commander.chargeUp();
